@@ -1,7 +1,9 @@
 # 🎶 Video Downloader (Flask + yt-dlp)
 
+![Banner del Proyecto](assets/CapturaIndex1.png)
+
 Aplicación web simple para **descargar audio de videos en línea** (ej. YouTube) usando [Flask](https://flask.palletsprojects.com/) y [yt-dlp](https://github.com/yt-dlp/yt-dlp).  
-El objetivo inicial es permitir pegar un enlace de YouTube y obtener el archivo de audio en formato **.m4a** o **.webm** (según disponibilidad).  
+El objetivo inicial es permitir pegar un enlace de YouTube y obtener el archivo de audio en formato **.m4a** o **.webm** (según disponibilidad).
 
 > ⚠️ En esta versión inicial **no se convierte a MP3** automáticamente. Si el video ofrece M4A se guarda así, de lo contrario se guarda como WebM/Opus.
 
@@ -9,13 +11,11 @@ El objetivo inicial es permitir pegar un enlace de YouTube y obtener el archivo 
 
 ## ✨ Características
 
-- Interfaz web sencilla (HTML + JS).
-- Descarga del mejor audio disponible.
-  - Prioriza **M4A/AAC**.
-  - Si no existe, usa **WebM/Opus** u otro audio disponible.
-- Archivos servidos directamente desde Flask vía HTTP.
-- Ignora configuraciones externas de `yt-dlp` (evita `.mhtml`).
-- Compatible con Windows (probado en Windows 10 + Python 3.13).
+- 🎨 Interfaz web sencilla (HTML + JS) con estilo neón.
+- 🎵 Descarga del mejor audio disponible (prioriza **M4A/AAC**, fallback a **WebM/Opus**).
+- 🌐 Archivos servidos directamente desde Flask vía HTTP.
+- 🛡️ Ignora configuraciones externas de `yt-dlp` (evita `.mhtml`).
+- 💻 Compatible con Windows (probado en Windows 10 + Python 3.13).
 
 ---
 
@@ -32,7 +32,7 @@ El objetivo inicial es permitir pegar un enlace de YouTube y obtener el archivo 
 1. Clonar el repositorio:
 
    ```bash
-   git clone https://github.com/tuusuario/video-downloader.git
+   git clone https://github.com/Gamer-Sm/video-downloader.git
    cd video-downloader
    ```
 
@@ -80,11 +80,13 @@ El objetivo inicial es permitir pegar un enlace de YouTube y obtener el archivo 
 
 ```
 video-downloader/
-├── app.py              # Backend Flask principal
-├── requirements.txt    # Dependencias (Flask + yt-dlp)
+├── app.py
+├── requirements.txt
 ├── templates/
-│   └── index.html      # Interfaz web
-└── downloads/          # Carpeta donde se guardan los audios descargados
+│   └── index.html
+├── downloads/
+└── assets/
+    └── banner.png
 ```
 
 ---
@@ -93,25 +95,17 @@ video-downloader/
 
 1. Ingresa a `http://127.0.0.1:5000`.
 2. Pega la URL de un video de YouTube.
-3. Haz clic en **Descargar Música**.
-4. Al terminar, obtendrás un enlace de descarga al archivo de audio.
+3. Haz clic en **Obtener vista previa** y verifica el thumbnail/título.
+4. Pulsa **Descargar audio**; obtendrás un enlace HTTP directo al archivo.
 
 ---
 
-## 🔍 Notas importantes
+## 👨‍🎤 Autor
 
-- Algunos videos pueden requerir **cookies o autenticación** (por edad, región, etc).  
-  En este caso, yt-dlp necesita configuración extra (no incluida aún en este commit).
-- El archivo final será **M4A** si está disponible, de lo contrario puede ser **WebM/Opus**.
-- No se usa **FFmpeg** en este proyecto inicial.
-
----
+Hecho por **Sebastián Prado – Gamer-Sm**.
 
 ---
 
 ## 📜 Licencia
 
-Este proyecto se publica bajo la licencia **MIT**.  
-Eres libre de usarlo, modificarlo y compartirlo.
-
-Hecho por Sebastian Prado - Gamer-Sm
+Este proyecto se publica bajo la licencia **MIT**.

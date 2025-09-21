@@ -1,123 +1,143 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Descargar Música</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        .input-field {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .submit-btn {
-            width: 100%;
-            padding: 10px;
-            background-color: #4CAF50;
-            border: none;
-            border-radius: 4px;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        .submit-btn:hover {
-            background-color: #45a049;
-        }
-        .error-message {
-            color: red;
-            text-align: center;
-        }
-        .success-message {
-            text-align: center;
-            margin-top: 15px;
-        }
-        .download-link {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 10px 15px;
-            background-color: #2196F3;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-        }
-        .download-link:hover {
-            background-color: #0b7dda;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Video Downloader – Neon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0f19; --card:#11172a; --muted:#9aa4bf; --accent:#00e5ff; --accent2:#7c4dff; --ok:#00ffa3; --danger:#ff4976;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:radial-gradient(1200px 600px at 10% -10%,rgba(0,229,255,.08),transparent),radial-gradient(800px 400px at 100% 0,rgba(124,77,255,.08),transparent),var(--bg);color:#e9eeff}
+    a{color:var(--accent)}
+    .wrap{max-width:900px;margin:40px auto;padding:24px}
+    .title{text-align:center;margin:10px 0 18px;font-weight:800;letter-spacing:.5px;font-size:clamp(26px,4vw,42px);text-shadow:0 0 12px rgba(0,229,255,.35),0 0 30px rgba(124,77,255,.25)}
+    .subtitle{color:var(--muted);text-align:center;margin:-4px 0 28px}
+    .panel{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.00));border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:18px 18px 22px;box-shadow:0 10px 35px rgba(0,0,0,.35),inset 0 0 60px rgba(124,77,255,.07)}
+    .row{display:flex;gap:14px;flex-wrap:wrap}
+    .row > *{flex:1 1 220px}
+    .input{width:100%;padding:14px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#0f1526;color:#dfe6ff;font-size:15px;outline:none}
+    .input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,229,255,.15)}
+    .btn{padding:14px 18px;border:none;border-radius:12px;color:#041018;font-weight:700;background:linear-gradient(95deg,var(--accent),var(--accent2));cursor:pointer;box-shadow:0 8px 18px rgba(0,229,255,.25),0 2px 0 rgba(0,0,0,.25) inset}
+    .btn:active{transform:translateY(1px)}
+    .status{margin-top:12px;min-height:22px;font-size:14px;color:var(--muted)}
+    .grid{display:grid;grid-template-columns:1fr;gap:18px;margin-top:18px}
+    @media(min-width:820px){.grid{grid-template-columns: 380px 1fr}}
+    .card{background:#0d1324;border:1px solid rgba(255,255,255,.06);border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+    .thumb{width:100%;aspect-ratio:16/9;object-fit:cover;background:#0a0f1e}
+    .card-body{padding:14px 16px}
+    .meta{color:var(--muted);font-size:14px;margin-top:6px}
+    .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+    .ghost{background:transparent;border:1px solid rgba(255,255,255,.18);color:#e9eeff}
+    footer{margin:28px 0 10px;text-align:center;color:var(--muted)}
+    .badge{display:inline-block;margin-top:6px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.16);background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));color:#bcd0ff}
+  </style>
 </head>
 <body>
+  <div class="wrap">
+    <h1 class="title">Video Downloader <span style="color:var(--accent)">Neon</span></h1>
+    <p class="subtitle">Pega un enlace y obtén la <strong>vista previa</strong> antes de descargar el audio.</p>
 
-<div class="container">
-    <h1>Descargar Música</h1>
-    <form id="download-form">
-        <input type="text" id="video-url" class="input-field" placeholder="Ingresa la URL del video" required>
-        <button type="submit" class="submit-btn">Descargar Música</button>
-    </form>
-    <div id="message" class="error-message"></div>
-    <div id="success" class="success-message"></div>
-</div>
+    <div class="panel">
+      <div class="row">
+        <input id="url" class="input" placeholder="https://www.youtube.com/watch?v=..." />
+        <button id="btnPreview" class="btn">Obtener vista previa</button>
+      </div>
+      <div id="status" class="status"></div>
 
-<script>
-    document.getElementById('download-form').addEventListener('submit', async function(event) {
-        event.preventDefault();
+      <div class="grid" id="preview" style="display:none">
+        <div class="card">
+          <img id="thumb" class="thumb" alt="thumbnail" />
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <h3 id="title" style="margin:0 0 6px"></h3>
+            <div class="meta"><span id="uploader"></span> • <span id="duration"></span></div>
+            <div class="actions">
+              <a id="openVideo" class="btn ghost" target="_blank">Ver en YouTube</a>
+              <button id="btnDownload" class="btn">⬇ Descargar audio</button>
+            </div>
+            <div id="dlStatus" class="status"></div>
+            <div id="dlLink" class="status" style="margin-top:8px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        const videoUrl = document.getElementById('video-url').value;
-        const messageDiv = document.getElementById('message');
-        const successDiv = document.getElementById('success');
+    <footer>
+      <div>Hecho por <strong>Sebastián Prado</strong> · <span class="badge">Gamer-Sm</span></div>
+    </footer>
+  </div>
 
-        messageDiv.textContent = "";
-        successDiv.innerHTML = "";
+  <script>
+    const fmtTime = (sec)=>{
+      if(!sec && sec!==0) return '—';
+      const h=Math.floor(sec/3600), m=Math.floor((sec%3600)/60), s=sec%60;
+      return [h,m,s].filter((v,i)=>v||i>0).map(v=>String(v).padStart(2,'0')).join(':');
+    };
 
-        if (!videoUrl) {
-            messageDiv.textContent = "Por favor, ingresa una URL válida.";
-            return;
-        }
+    const qs = (id)=>document.getElementById(id);
+    const elUrl = qs('url');
+    const elStatus = qs('status');
+    const elPrev = qs('preview');
+    const elThumb = qs('thumb');
+    const elTitle = qs('title');
+    const elUploader = qs('uploader');
+    const elDuration = qs('duration');
+    const elOpen = qs('openVideo');
+    const elBtnDownload = qs('btnDownload');
+    const elDlStatus = qs('dlStatus');
+    const elDlLink = qs('dlLink');
 
-        messageDiv.textContent = "Descargando...";
+    async function preview(){
+      elStatus.textContent = 'Cargando vista previa…';
+      elPrev.style.display = 'none';
+      elDlStatus.textContent='';
+      elDlLink.innerHTML='';
+      try{
+        const r = await fetch('/preview',{
+          method:'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({url: elUrl.value.trim()})
+        });
+        const data = await r.json();
+        if(!r.ok) throw new Error(data.error||'Error en vista previa');
+        elStatus.textContent='';
+        elPrev.style.display='grid';
+        elThumb.src = data.thumbnail || '';
+        elTitle.textContent = data.title || '(sin título)';
+        elUploader.textContent = data.uploader || 'Desconocido';
+        elDuration.textContent = fmtTime(data.duration);
+        elOpen.href = data.webpage_url || '#';
+      }catch(err){
+        elStatus.textContent = 'Error: '+err.message;
+      }
+    }
 
-        try {
-            const response = await fetch('/downloads', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ url: videoUrl })
-            });
+    async function download(){
+      elDlStatus.textContent = 'Descargando…';
+      elDlLink.innerHTML='';
+      try{
+        const r = await fetch('/downloads',{
+          method:'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({url: elUrl.value.trim()})
+        });
+        const data = await r.json();
+        if(!r.ok) throw new Error(data.error||'No se pudo descargar');
+        elDlStatus.textContent = '¡Listo!';
+        elDlLink.innerHTML = `<a class="btn" href="${data.file_url}" target="_blank">⬇ Descargar ahora</a>`;
+      }catch(err){
+        elDlStatus.textContent = 'Error: '+err.message;
+      }
+    }
 
-            const result = await response.json();
-
-            if (response.ok) {
-                messageDiv.textContent = "";
-                successDiv.innerHTML = `
-                    <p>✅ ¡Descarga completa! <strong>${result.title}</strong></p>
-                    <a class="download-link" href="${result.file_url}" target="_blank">⬇ Descargar ahora</a>
-                `;
-            } else {
-                messageDiv.textContent = `Error: ${result.error || "Hubo un problema con la descarga."}`;
-            }
-        } catch (err) {
-            messageDiv.textContent = "Error al conectar con el servidor.";
-        }
-    });
-</script>
-
+    document.getElementById('btnPreview').addEventListener('click', preview);
+    document.getElementById('btnDownload').addEventListener('click', download);
+    elUrl.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); preview(); } });
+  </script>
 </body>
 </html>
